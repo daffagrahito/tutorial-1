@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
 @Repository
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
@@ -16,7 +17,18 @@ public class ProductRepository {
         return product;
     }
 
+    public Product findById(String productId) {
+        return productData.stream()
+                .filter(product -> product.getProductId().equals(productId))
+                .findFirst()
+                .orElse(null);
+    }
+
     public Iterator<Product> findAll() {
         return productData.iterator();
+    }
+
+    public void deleteById(String productId) {
+        productData.removeIf(product -> product.getProductId().equals(productId));
     }
 }
