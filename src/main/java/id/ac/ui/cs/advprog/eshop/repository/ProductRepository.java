@@ -16,6 +16,24 @@ public class ProductRepository {
         return product;
     }
 
+    public Product findById(String productId) {
+        return productData.stream()
+                .filter(product -> product.getProductId().equals(productId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Product edit(Product updatedProduct) {
+        for (int i = 0; i < productData.size(); i++) {
+            Product existingProduct = productData.get(i);
+            if (existingProduct.getProductId().equals(updatedProduct.getProductId())) {
+                productData.set(i, updatedProduct);
+                return updatedProduct;
+            }
+        }
+        return null; // Product not found
+    }
+
     public Iterator<Product> findAll() {
         return productData.iterator();
     }
