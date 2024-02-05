@@ -26,6 +26,11 @@
             <td>
                 <a th:href="@{'/product/edit/' + ${product.productId}}" class="btn btn-info btn-sm">Edit</a>
             </td>
+            <td>
+                <form th:action="@{/product/delete/{productId}(productId=${product.productId})}" th:method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
