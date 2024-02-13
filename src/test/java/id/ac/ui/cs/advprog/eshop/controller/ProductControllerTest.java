@@ -72,7 +72,7 @@ public class ProductControllerTest {
 
     @Test
     void testDeleteProductPost() throws Exception {
-        String productId = "1"; // Example product ID
+        String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6"; // Example product ID
         mockMvc.perform(post("/product/delete/" + productId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product/list"));
@@ -82,7 +82,7 @@ public class ProductControllerTest {
 
     @Test
     void testEditProductPage() throws Exception {
-        String productId = "1"; // Example product ID
+        String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6"; // Example product ID
         Product product = new Product(); // Consider setting product details
         given(service.findById(productId)).willReturn(product);
 
