@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
-
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProductController.class)
-public class ProductControllerTest {
+class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +49,7 @@ public class ProductControllerTest {
     void testCreateProductPost() throws Exception {
         Product product = new Product(); // Consider adding details to the product
         mockMvc.perform(post("/product/create")
-                        .flashAttr("product", product))
+                .flashAttr("product", product))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("list"));
 
@@ -97,7 +96,7 @@ public class ProductControllerTest {
     void testEditProductPost() throws Exception {
         Product updatedProduct = new Product(); // Consider setting updated product details
         mockMvc.perform(post("/product/edit")
-                        .flashAttr("product", updatedProduct))
+                .flashAttr("product", updatedProduct))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("list"));
 

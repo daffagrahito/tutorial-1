@@ -1,4 +1,4 @@
-name: PMD
+name: PMD Code Analysis
 
 ## Run PMD jobs on all branches by default
 on:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  pmd:
+  pmd-analysis:
     name: Run tests
     runs-on: ubuntu-22.04
     permissions:
