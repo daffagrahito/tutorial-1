@@ -31,11 +31,11 @@ public class ProductControllerTest {
     @BeforeEach
     void setUp() {
         Product product = new Product();
-        product.setProductId("1");
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product.setProductName("Sample Product");
         product.setProductQuantity(10);
 
-        given(service.findById("1")).willReturn(product);
+        given(service.findById("eb558e9f-1c39-460e-8860-71af6af63bd6")).willReturn(product);
         given(service.findAll()).willReturn(Arrays.asList(product));
     }
 
