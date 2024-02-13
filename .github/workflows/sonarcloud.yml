@@ -1,7 +1,11 @@
 name: SonarCloud
 on:
   push:
+    branches:
+      - main
+      - module-2-exercise
   pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   build:
     name: Build and analyze
