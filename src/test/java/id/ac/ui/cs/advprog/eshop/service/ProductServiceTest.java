@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+class ProductServiceTest {
 
     @InjectMocks
     ProductServiceImpl service;
@@ -26,7 +26,7 @@ public class ProductServiceTest {
     ProductRepository repository;
 
     @Test
-    public void testCreateProduct() {
+    void testCreateProduct() {
         Product product = new Product();
         when(repository.create(product)).thenReturn(product);
         Product createdProduct = service.create(product);
@@ -35,7 +35,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testFindProductById() {
+    void testFindProductById() {
         Product product = new Product();
         String productId = "1";
         when(repository.findById(productId)).thenReturn(product);
@@ -45,7 +45,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testEditProduct() {
+    void testEditProduct() {
         Product product = new Product();
         when(repository.edit(product)).thenReturn(product);
         Product editedProduct = service.edit(product);
@@ -54,7 +54,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testFindAllProductsWhenNoneExist() {
+    void testFindAllProductsWhenNoneExist() {
         when(repository.findAll()).thenReturn(Collections.emptyIterator());
         List<Product> products = service.findAll();
         verify(repository, times(1)).findAll();
@@ -62,7 +62,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testFindAllProductsReturnsCorrectProducts() {
+    void testFindAllProductsReturnsCorrectProducts() {
         Product product1 = new Product();
         product1.setProductId("1");
         Product product2 = new Product();
@@ -77,7 +77,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testDeleteProductById() {
+    void testDeleteProductById() {
         String productId = "1";
         service.deleteById(productId);
         verify(repository, times(1)).deleteById(productId);

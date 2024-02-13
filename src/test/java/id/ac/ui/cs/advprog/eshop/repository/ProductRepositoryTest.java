@@ -12,7 +12,7 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductRepositoryTest {
+class ProductRepositoryTest {
 
     @InjectMocks
     ProductRepository productRepository;
@@ -67,7 +67,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testFindByIdPositive() {
+    void testFindByIdPositive() {
         // Arrange
         Product product1 = new Product();
         product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
@@ -86,7 +86,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testFindByIdNegative() {
+    void testFindByIdNegative() {
         // Arrange
         Product product1 = new Product();
         product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
@@ -104,7 +104,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testEditPositive() {
+    void testEditPositive() {
         // Arrange
         Product product1 = new Product();
         product1.setProductId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
@@ -129,7 +129,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testEditNegative() {
+    void testEditNegative() {
         // Arrange
         Product product1 = new Product();
         product1.setProductId("b5ac78c5-c3d2-47e5-bdee-67a9e9c9981b");
@@ -152,7 +152,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testDeleteByIdPositive() {
+    void testDeleteByIdPositive() {
         // Arrange
         Product product1 = new Product();
         product1.setProductId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
@@ -171,7 +171,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testDeleteByIdNegative() {
+    void testDeleteByIdNegative() {
         // Arrange
         Product product1 = new Product();
         product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");

@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-public class ProductTest {
+
+class ProductTest {
     Product product;
+
     @BeforeEach
     void setUp() {
         this.product = new Product();
@@ -32,7 +34,7 @@ public class ProductTest {
 
     // Negative scenario
     @Test
-    public void testSetProductIdNegativeScenario() {
+    void testSetProductIdNegativeScenario() {
         Product product = new Product();
         assertThrows(IllegalArgumentException.class, () -> product.setProductId(null));
         assertThrows(IllegalArgumentException.class, () -> product.setProductId(""));
@@ -40,7 +42,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testSetProductNameNegativeScenario() {
+    void testSetProductNameNegativeScenario() {
         Product product = new Product();
         assertThrows(IllegalArgumentException.class, () -> product.setProductName(null));
         assertThrows(IllegalArgumentException.class, () -> product.setProductName(""));
@@ -48,7 +50,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testSetProductQuantityNegativeScenario() {
+    void testSetProductQuantityNegativeScenario() {
         Product product = new Product();
         assertThrows(IllegalArgumentException.class, () -> product.setProductQuantity(-1));
         System.out.println(product.getProductQuantity());
