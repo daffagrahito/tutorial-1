@@ -6,6 +6,14 @@ plugins {
 	id("org.sonarqube") version "4.4.1.3373"
 }
 
+sonar {
+	properties {
+		property("sonar.projectKey", "daffagrahito_tutorial-1")
+		property("sonar.organization", "daffagrahito")
+		property("sonar.host.url", "https://sonarcloud.io")
+	}
+}
+
 group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
 
@@ -78,13 +86,6 @@ tasks.jacocoTestReport{
 
 	reports {
 		xml.required = true
-	}
-}
-
-sonar {
-	properties {
-		property("sonar.projectKey", "daffagrahito_tutorial-1")
-		property("sonar.organization", "daffagrahito")
-		property("sonar.host.url", "https://sonarcloud.io")
+		html.required = true
 	}
 }
