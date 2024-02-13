@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 **Add a description to this table. `"<table>"` tags should have a description, `src/main/resources/templates/ListProduct.html`**
 - Perlu menambahkan caption di table html untuk menambah code reliability, untuk itu menambahkan `<caption></caption>` menyelesaikan permasalahan ini.
 
-2. Menurut saya, saya sudah cukup baik mengimplementasikan CI/CD di project ini. Untuk *Continuous Integration* (CI), saya menggunakan GitHub Actions untuk menjalankan workflows yang saya define sebelumnya seperti `ci.yml`, `pmd.yml`, dan `scorecard.yml`. Workflows tersebut otomatis dijalankan apabila terdapat push/pull request ke suatu branch. Selain itu saya juga mengimplementasikan *Continuous Deployment* (CD) dengan menggunakan Koyeb sebagai *PaaS*nya. Sama seperti CI, apabila terdapat push/pull request ke suatu branch maka akan secara otomatis ter-*deploy* di Koyeb.
+2. Menurut saya, saya sudah cukup mengimplementasikan CI/CD di project ini. Untuk *Continuous Integration* (CI), saya menggunakan GitHub Actions untuk menjalankan workflows yang saya define sebelumnya seperti `ci.yml`, `pmd.yml`, dan `scorecard.yml`. Workflows tersebut otomatis dijalankan apabila terdapat push/pull request ke suatu branch. Selain itu saya juga mengimplementasikan *Continuous Deployment* (CD) dengan menggunakan Koyeb sebagai *PaaS*nya. Sama seperti CI, apabila terdapat push/pull request ke suatu branch maka akan secara otomatis ter-*deploy* di Koyeb.
 
 ## Module Sebelumnya 📑
 
