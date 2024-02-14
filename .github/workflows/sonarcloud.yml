@@ -3,9 +3,12 @@ on:
   push:
     branches:
       - main
-      - module-2-exercise
+      - branch-*
   pull_request:
     types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: read
 jobs:
   build:
     name: Build and analyze
