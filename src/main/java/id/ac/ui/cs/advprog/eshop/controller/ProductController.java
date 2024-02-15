@@ -67,6 +67,8 @@ public class ProductController {
     }
 }
 
+@Controller
+@RequestMapping("/car")
 class CarController extends ProductController {
     private final CarServiceImpl carService;
 
