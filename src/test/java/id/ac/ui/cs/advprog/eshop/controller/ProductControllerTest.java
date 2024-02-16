@@ -2,127 +2,78 @@ package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.ui.Model;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.doNothing;
 
-@WebMvcTest(ProductController.class)
-class ProductControllerTest {
+@ExtendWith(MockitoExtension.class)
+class ProductControllerTests {
+    @Mock
+    ProductService productService;
+    @Mock
+    private Model model;
+    @InjectMocks
+    ProductController productController;
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Test
+    void testCreateProductPage() {
+        String result = productController.createProductPage(model);
+        assertEquals("CreateProduct", result);
+    }
 
-    @MockBean
-    private ProductService service;
-
-    @BeforeEach
-    void setUp() {
+    @Test
+    void testCreateProductPost() {
         Product product = new Product();
-        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product.setProductName("Sample Product");
-        product.setProductQuantity(10);
-
-        given(service.findById("eb558e9f-1c39-460e-8860-71af6af63bd6")).willReturn(product);
-        given(service.findAll()).willReturn(Arrays.asList(product));
+        when(productService.create(product)).thenReturn(product);
+        String result = productController.createProductPost(product, model);
+        assertEquals("redirect:list", result);
     }
 
     @Test
-    void testCreateProductPage() throws Exception {
-        mockMvc.perform(get("/product/create"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("CreateProduct"));
+    void testProductListPage() {
+        List<Product> products = Arrays.asList(new Product(), new Product());
+        when(productService.findAll()).thenReturn(products);
+        String result = productController.productListPage(model);
+        assertEquals("ListProduct", result);
+        verify(model, times(1)).addAttribute("products", products);
     }
 
     @Test
-    void testCreateProductPost() throws Exception {
+    void testEditProductPage() {
         Product product = new Product();
-        product.setProductId("1");
-        product.setProductName("Test Product");
-        product.setProductQuantity(10);
-
-        mockMvc.perform(post("/product/create")
-                .flashAttr("product", product))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("list"));
-
-        verify(service, times(1)).create(product);
+        when(productService.findById(product.getProductId())).thenReturn(product);
+        String result = productController.editProductPage(product.getProductId(), model);
+        assertEquals("EditProduct", result);
+        verify(model, times(1)).addAttribute("product", product);
     }
 
     @Test
-    void testProductListPage() throws Exception {
-        Product product1 = new Product();
-        product1.setProductId("1");
-        product1.setProductName("Test Product 1");
-        product1.setProductQuantity(10);
-
-        Product product2 = new Product();
-        product2.setProductId("2");
-        product2.setProductName("Test Product 2");
-        product2.setProductQuantity(20);
-
-        List<Product> products = Arrays.asList(product1, product2);
-        given(service.findAll()).willReturn(products);
-
-        mockMvc.perform(get("/product/list"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("ListProduct"))
-                .andExpect(model().attributeExists("products"))
-                .andExpect(model().attribute("products", products));
+    void testDeleteProductPost() {
+        String productId = "testId";
+        doNothing().when(productService).deleteById(productId);
+        String result = productController.deleteProductPost(productId);
+        verify(productService, times(1)).deleteById(productId);
+        assertEquals("redirect:/product/list", result);
     }
 
     @Test
-    void testDeleteProductPost() throws Exception {
-        String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6"; // Example product ID
-        mockMvc.perform(post("/product/delete/" + productId))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/product/list"));
-
-        verify(service, times(1)).deleteById(productId);
-    }
-
-    @Test
-    void testEditProductPage() throws Exception {
-        String productId = "eb558e9f-1c39-460e-8860-71af6af63bd6"; // Example product ID
-        Product product = new Product();
-        product.setProductId(productId);
-        product.setProductName("Test Product");
-        product.setProductQuantity(10);
-        given(service.findById(productId)).willReturn(product);
-
-        mockMvc.perform(get("/product/edit/" + productId))
-                .andExpect(status().isOk())
-                .andExpect(view().name("EditProduct"))
-                .andExpect(model().attributeExists("product"))
-                .andExpect(model().attribute("product", product));
-    }
-
-    @Test
-    void testEditProductPost() throws Exception {
+    void testEditProductPost() {
         Product updatedProduct = new Product();
-        updatedProduct.setProductId("1");
-        updatedProduct.setProductName("Updated Product");
-        updatedProduct.setProductQuantity(15);
-        mockMvc.perform(post("/product/edit")
-                .flashAttr("product", updatedProduct))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("list"));
-
-        verify(service, times(1)).edit(updatedProduct);
+        when(productService.edit(updatedProduct)).thenReturn(updatedProduct);
+        String result = productController.editProductPost(updatedProduct, model);
+        verify(productService, times(1)).edit(updatedProduct);
+        assertEquals("redirect:list", result);
     }
 }
