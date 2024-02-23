@@ -2,33 +2,10 @@
 
 > #### Muhammad Daffa Grahito Triharsanto - 2206820075 - Pemrograman Lanjut B
 
-## Module 2 - Pemrograman Lanjut 2023/2024 Genap
+## Module 3 - Pemrograman Lanjut 2023/2024 Genap
+![Soal Reflection 1](https://cdn.discordapp.com/attachments/711462986874617956/1210430006975668334/image.png?ex=65ea87ca&is=65d812ca&hm=c480660afb98a615d82389e4cc6e48a7153f1e763dfdbc6aa8241d6ff24702a4&)
 
-### Reflection ✏️
-![Reflection Module 2](https://cdn.discordapp.com/attachments/1201794782402187324/1206840567573651466/image.png?ex=65dd78dd&is=65cb03dd&hm=1a3604919e4f78b6a9805c09ff2ed67d1229e2997a95b2d31108e138576dab2d&)
-![Reflection Module 2](https://cdn.discordapp.com/attachments/1201794782402187324/1206840664642293770/image.png?ex=65dd78f4&is=65cb03f4&hm=0f72c6c1e008c2a3bfe493a0e3f4098bcb2f15b29fb8166a492c0f8ac929bfb1&)
-
-1. Beberapa *code quality issue(s)* yang saya benarkan dalam exercise ini diantaranya adalah:
-  
-**Fields in interfaces and annotations are automatically `public static final`, and methods are `public abstract`.**
-  
-- Ini terjadi karena sebelumnya method-method pada interface `ProductService` memiliki modifier `public` di setiap methodnya. Padahal setiap method di interface sudah otomatis merupakan `public static final` tanpa perlu *declare* modifiernya. Untuk itu menghapus modifier public membenarkan permasalahan ini.
-
-**Reports import statements that can be removed. They are either unused, duplicated, or the members they import are already implicitly in scope, because they're in `java.lang`, or the current package.** 
-- Ini terjadi karena memang terdapat `import 'org.springframework.web.bind.annotation.*'` di `ProductController.java:8` yang mengimport module `annotation` lain yang tidak diperlukan juga, sehingga hanya perlu mengimport seperlunya saja. Untuk itu saya *manually* menambahkan satu-satu import yang saya pakai di ProductController sehingga menjadi seperti ini:
-```java
-...
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-...
-``` 
-**Add a description to this table. `"<table>"` tags should have a description, `src/main/resources/templates/ListProduct.html`**
-- Perlu menambahkan caption di table html untuk menambah code reliability, untuk itu menambahkan `<caption></caption>` menyelesaikan permasalahan ini.
-
-2. Menurut saya, saya sudah cukup mengimplementasikan CI/CD di project ini. Untuk *Continuous Integration* (CI), saya menggunakan GitHub Actions untuk menjalankan workflows yang saya define sebelumnya seperti `ci.yml`, `pmd.yml`, `sonarcloud.yml`, dan `scorecard.yml`. Workflows tersebut otomatis dijalankan apabila terdapat push/pull request ke suatu branch. Selain itu saya juga mengimplementasikan *Continuous Deployment* (CD) dengan menggunakan Koyeb sebagai *PaaS*nya. Sama seperti CI, apabila terdapat push/pull request ke suatu branch maka akan secara otomatis ter-*deploy* di Koyeb. Dengan begini saya dapat me-*maintain* code saya dengan lebih baik setiap kali saya ingin melakukan perubahan code dalam project saya agar dapat mendeteksi error lebih awal.
+1. SOLID Principles yang sudah saya apply diantaranya
 
 ## Module Sebelumnya 📑
 
@@ -72,4 +49,36 @@ Setelah me-*review* kembali source code yang telah saya buat untuk setiap kedua 
 
 2. Semisal dibuat functional test suite baru sebagai sebuah Java class baru, akan ada beberapa hal yang membuat test suite kita tidak mencakup *clean code*. Salah satunya mungkin yaitu duplikasi class dan file. Jika setup prosedur dan variabel instance yang sama disalin secara langsung dari kelas tes fungsional sebelumnya, itu akan menciptakan duplikasi kode yang tidak efisien. Ini dapat membuat kode sulit dipelihara dan meningkatkan risiko kesalahan jika perubahan perlu dilakukan di masa depan. Alternatif yang lebih mungkin daripada menyalin setup prosedur dari kelas tes fungsional sebelumnya adalah mempertimbangkan untuk menyatukan setup ke dalam suatu method helper yang dapat dipanggil dari semua tes fungsional yang memerlukannya dan juga kita bisa mengkapsulasi setup prosedur dan variabel instance dalam method atau helper class terpisah untuk menghindari duplikasi kode.
 
+</details>
+
+<details>
+<summary> <b> Reflection Module 2 </b> </summary>
+
+## Module 2 - Pemrograman Lanjut 2023/2024 Genap
+
+### Reflection ✏️
+![Reflection Module 2](https://cdn.discordapp.com/attachments/1201794782402187324/1206840567573651466/image.png?ex=65dd78dd&is=65cb03dd&hm=1a3604919e4f78b6a9805c09ff2ed67d1229e2997a95b2d31108e138576dab2d&)
+![Reflection Module 2](https://cdn.discordapp.com/attachments/1201794782402187324/1206840664642293770/image.png?ex=65dd78f4&is=65cb03f4&hm=0f72c6c1e008c2a3bfe493a0e3f4098bcb2f15b29fb8166a492c0f8ac929bfb1&)
+
+1. Beberapa *code quality issue(s)* yang saya benarkan dalam exercise ini diantaranya adalah:
+  
+**Fields in interfaces and annotations are automatically `public static final`, and methods are `public abstract`.**
+  
+- Ini terjadi karena sebelumnya method-method pada interface `ProductService` memiliki modifier `public` di setiap methodnya. Padahal setiap method di interface sudah otomatis merupakan `public static final` tanpa perlu *declare* modifiernya. Untuk itu menghapus modifier public membenarkan permasalahan ini.
+
+**Reports import statements that can be removed. They are either unused, duplicated, or the members they import are already implicitly in scope, because they're in `java.lang`, or the current package.** 
+- Ini terjadi karena memang terdapat `import 'org.springframework.web.bind.annotation.*'` di `ProductController.java:8` yang mengimport module `annotation` lain yang tidak diperlukan juga, sehingga hanya perlu mengimport seperlunya saja. Untuk itu saya *manually* menambahkan satu-satu import yang saya pakai di ProductController sehingga menjadi seperti ini:
+```java
+...
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+...
+``` 
+**Add a description to this table. `"<table>"` tags should have a description, `src/main/resources/templates/ListProduct.html`**
+- Perlu menambahkan caption di table html untuk menambah code reliability, untuk itu menambahkan `<caption></caption>` menyelesaikan permasalahan ini.
+
+2. Menurut saya, saya sudah cukup mengimplementasikan CI/CD di project ini. Untuk *Continuous Integration* (CI), saya menggunakan GitHub Actions untuk menjalankan workflows yang saya define sebelumnya seperti `ci.yml`, `pmd.yml`, `sonarcloud.yml`, dan `scorecard.yml`. Workflows tersebut otomatis dijalankan apabila terdapat push/pull request ke suatu branch. Selain itu saya juga mengimplementasikan *Continuous Deployment* (CD) dengan menggunakan Koyeb sebagai *PaaS*nya. Sama seperti CI, apabila terdapat push/pull request ke suatu branch maka akan secara otomatis ter-*deploy* di Koyeb. Dengan begini saya dapat me-*maintain* code saya dengan lebih baik setiap kali saya ingin melakukan perubahan code dalam project saya agar dapat mendeteksi error lebih awal.
 </details>

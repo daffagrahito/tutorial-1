@@ -32,8 +32,7 @@ public class CarRepository {
     }
 
     public Car update(String id, Car updatedCar) {
-        for (int i = 0; i < carData.size(); i++) {
-            Car car = carData.get(i);
+        for (Car car : carData) {
             if (car.getId().equals(id)) {
                 // Update the existing car with the new info
                 car.setName(updatedCar.getName());
