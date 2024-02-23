@@ -1,42 +1,41 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter @Setter
+@Getter
 public class Product {
-    private String productId;
-    private String productName;
-    private int productQuantity;
+    private String id;
+    private String name;
+    private int quantity;
 
     public Product() {
-        this.productId = generateUniqueProductId();
+        this.id = generateUniqueProductId();
     }
 
     private String generateUniqueProductId() {
         return UUID.randomUUID().toString();
     }
 
-    public void setProductId(String productId) {
-        if (productId == null || productId.trim().isEmpty()) {
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("Product ID tidak boleh null atau empty");
         }
-        this.productId = productId;
+        this.id = id;
     }
 
-    public void setProductName(String productName) {
-        if (productName == null || productName.trim().isEmpty()) {
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Nama Product tidak boleh null atau empty");
         }
-        this.productName = productName;
+        this.name = name;
     }
 
-    public void setProductQuantity(int productQuantity) {
-        if (productQuantity < 0) {
+    public void setQuantity(int quantity) {
+        if (quantity < 0) {
             throw new IllegalArgumentException("Quantity Product tidak boleh negatif");
         }
-        this.productQuantity = productQuantity;
+        this.quantity = quantity;
     }
 }

@@ -3,33 +3,33 @@ package id.ac.ui.cs.advprog.eshop.model;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CarTest {
+class CarTest {
 
     @Test
-    public void testCarId() {
+    void testCarId() {
         Car car = new Car();
-        car.setCarId("123");
-        assertEquals("123", car.getCarId());
+        car.setId("123");
+        assertEquals("123", car.getId());
     }
 
     @Test
-    public void testCarName() {
+    void testCarName() {
         Car car = new Car();
-        car.setCarName("Test Car");
-        assertEquals("Test Car", car.getCarName());
+        car.setName("Test Car");
+        assertEquals("Test Car", car.getName());
     }
 
     @Test
-    public void testCarColor() {
+    void testCarColor() {
         Car car = new Car();
-        car.setCarColor("Red");
-        assertEquals("Red", car.getCarColor());
+        car.setColor("Red");
+        assertEquals("Red", car.getColor());
     }
 
     @Test
-    public void testCarQuantity() {
+    void testCarQuantity() {
         Car car = new Car();
-        car.setCarQuantity(5);
-        assertEquals(5, car.getCarQuantity());
+        car.setQuantity(5);
+        assertEquals(5, car.getQuantity());
     }
 }

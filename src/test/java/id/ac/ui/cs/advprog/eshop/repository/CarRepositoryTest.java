@@ -4,10 +4,12 @@ import id.ac.ui.cs.advprog.eshop.model.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Iterator;
 
 class CarRepositoryTest {
 
@@ -15,13 +17,13 @@ class CarRepositoryTest {
     private Car car;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         carRepository = new CarRepository();
         car = new Car();
-        car.setCarId("123");
-        car.setCarName("Test Car");
-        car.setCarColor("Red");
-        car.setCarQuantity(5);
+        car.setId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        car.setName("Test Car");
+        car.setColor("Red");
+        car.setQuantity(5);
         carRepository.create(car);
     }
 
@@ -42,7 +44,7 @@ class CarRepositoryTest {
     @Test
     void testFindById() {
         carRepository.create(car);
-        Car result = carRepository.findById(car.getCarId());
+        Car result = carRepository.findById(car.getId());
         assertEquals(car, result);
     }
 
@@ -50,62 +52,62 @@ class CarRepositoryTest {
     void testUpdate() {
         carRepository.create(car);
         Car updatedCar = new Car();
-        updatedCar.setCarName("Updated Car");
-        updatedCar.setCarColor("Blue");
-        updatedCar.setCarQuantity(10);
-        Car result = carRepository.update(car.getCarId(), updatedCar);
-        assertEquals(updatedCar.getCarName(), result.getCarName());
-        assertEquals(updatedCar.getCarColor(), result.getCarColor());
-        assertEquals(updatedCar.getCarQuantity(), result.getCarQuantity());
+        updatedCar.setName("Updated Car");
+        updatedCar.setColor("Blue");
+        updatedCar.setQuantity(10);
+        Car result = carRepository.update(car.getId(), updatedCar);
+        assertEquals(updatedCar.getName(), result.getName());
+        assertEquals(updatedCar.getColor(), result.getColor());
+        assertEquals(updatedCar.getQuantity(), result.getQuantity());
     }
 
     @Test
     void testDelete() {
         carRepository.create(car);
-        carRepository.delete(car.getCarId());
-        assertNull(carRepository.findById(car.getCarId()));
+        carRepository.delete(car.getId());
+        assertNull(carRepository.findById(car.getId()));
     }
 
     @Test
     void testUpdateWithNonExistingId() {
         Car updatedCar = new Car();
-        updatedCar.setCarName("Updated Car");
-        updatedCar.setCarColor("Blue");
-        updatedCar.setCarQuantity(10);
+        updatedCar.setName("Updated Car");
+        updatedCar.setColor("Blue");
+        updatedCar.setQuantity(10);
         Car result = carRepository.update("non existing id", updatedCar);
         assertNull(result);
     }
 
     @Test
-    public void testCreateWithNullId() {
+    void testCreateWithNullId() {
         Car car = new Car();
-        car.setCarName("Test Car");
-        car.setCarColor("Red");
-        car.setCarQuantity(5);
+        car.setName("Test Car");
+        car.setColor("Red");
+        car.setQuantity(5);
         Car result = carRepository.create(car);
-        assertNotNull(result.getCarId());
+        assertNotNull(result.getId());
     }
 
     @Test
-    public void testCreateWithNonNullId() {
+    void testCreateWithNonNullId() {
         Car car = new Car();
-        car.setCarId("123");
-        car.setCarName("Test Car");
-        car.setCarColor("Red");
-        car.setCarQuantity(5);
+        car.setId("eb218e9c-2d69-460f-0727-11an1993rrd6");
+        car.setName("Test Car");
+        car.setColor("Red");
+        car.setQuantity(5);
         Car result = carRepository.create(car);
-        assertEquals("123", result.getCarId());
+        assertEquals("eb218e9c-2d69-460f-0727-11an1993rrd6", result.getId());
     }
 
     @Test
-    public void testFindByIdExistingId() {
-        Car result = carRepository.findById("123");
+    void testFindByIdExistingId() {
+        Car result = carRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6");
         assertEquals(car, result);
     }
 
     @Test
-    public void testFindByIdNonExistingId() {
-        Car result = carRepository.findById("non-existing-id");
+    void testFindByIdNonExistingId() {
+        Car result = carRepository.findById("Unknown ID");
         assertNull(result);
     }
 }

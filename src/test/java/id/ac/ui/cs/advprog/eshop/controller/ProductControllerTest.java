@@ -53,8 +53,8 @@ class ProductControllerTests {
     @Test
     void testEditProductPage() {
         Product product = new Product();
-        when(productService.findById(product.getProductId())).thenReturn(product);
-        String result = productController.editProductPage(product.getProductId(), model);
+        when(productService.findById(product.getId())).thenReturn(product);
+        String result = productController.editProductPage(product.getId(), model);
         assertEquals("EditProduct", result);
         verify(model, times(1)).addAttribute("product", product);
     }

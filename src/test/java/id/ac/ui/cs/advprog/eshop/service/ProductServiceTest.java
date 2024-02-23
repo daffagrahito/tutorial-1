@@ -64,16 +64,16 @@ class ProductServiceTest {
     @Test
     void testFindAllProductsReturnsCorrectProducts() {
         Product product1 = new Product();
-        product1.setProductId("1");
+        product1.setId("1");
         Product product2 = new Product();
-        product2.setProductId("2");
+        product2.setId("2");
         List<Product> allProducts = Arrays.asList(product1, product2);
         when(repository.findAll()).thenReturn(allProducts.iterator());
         List<Product> products = service.findAll();
         verify(repository, times(1)).findAll();
         assertEquals(2, products.size());
-        assertEquals("1", products.get(0).getProductId());
-        assertEquals("2", products.get(1).getProductId());
+        assertEquals("1", products.get(0).getId());
+        assertEquals("2", products.get(1).getId());
     }
 
     @Test

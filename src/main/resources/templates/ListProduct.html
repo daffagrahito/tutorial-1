@@ -22,11 +22,11 @@
         </thead>
         <tbody>
         <tr th:each="product: ${products}">
-            <td th:text="${product.productName}"></td>
-            <td th:text="${product.productQuantity}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.quantity}"></td>
             <td>
-                <a th:href="@{'/product/edit/' + ${product.productId}}" class="btn btn-info btn-sm" style="width: 75px;">Edit</a>
-                <form th:action="@{/product/delete/{productId}(productId=${product.productId})}" th:method="post">
+                <a th:href="@{'/product/edit/' + ${product.id}}" class="btn btn-info btn-sm" style="width: 75px;">Edit</a>
+                <form th:action="@{/product/delete/{id}(productId=${product.id})}" th:method="post">
                     <button type="submit" class="btn btn-danger" style="width: 75px;">Delete</button>
                 </form>
             </td>
