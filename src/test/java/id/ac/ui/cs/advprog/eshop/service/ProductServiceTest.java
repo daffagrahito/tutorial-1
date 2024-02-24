@@ -47,9 +47,9 @@ class ProductServiceTest {
     @Test
     void testEditProduct() {
         Product product = new Product();
-        when(repository.edit(product)).thenReturn(product);
-        Product editedProduct = service.edit(product);
-        verify(repository, times(1)).edit(product);
+        when(repository.edit(product.getId(), product)).thenReturn(product);
+        Product editedProduct = service.edit(product.getId(), product);
+        verify(repository, times(1)).edit(product.getId(), product);
         assertEquals(product, editedProduct);
     }
 

@@ -5,7 +5,13 @@
 ## Module 3 - Pemrograman Lanjut 2023/2024 Genap
 ![Soal Reflection 1](https://cdn.discordapp.com/attachments/711462986874617956/1210430006975668334/image.png?ex=65ea87ca&is=65d812ca&hm=c480660afb98a615d82389e4cc6e48a7153f1e763dfdbc6aa8241d6ff24702a4&)
 
-1. SOLID Principles yang sudah saya apply diantaranya
+1. SOLID Principles yang sudah saya apply diantaranya:
+    
+    ### SRP
+
+    ### LSP
+
+    ### ISP
 
 ## Module Sebelumnya 📑
 

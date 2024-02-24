@@ -49,33 +49,33 @@ class CarRepositoryTest {
     }
 
     @Test
-    void testUpdate() {
+    void testEdit() {
         carRepository.create(car);
         Car updatedCar = new Car();
         updatedCar.setName("Updated Car");
         updatedCar.setColor("Blue");
         updatedCar.setQuantity(10);
-        Car result = carRepository.update(car.getId(), updatedCar);
+        Car result = carRepository.edit(car.getId(), updatedCar);
         assertEquals(updatedCar.getName(), result.getName());
         assertEquals(updatedCar.getColor(), result.getColor());
         assertEquals(updatedCar.getQuantity(), result.getQuantity());
     }
 
     @Test
-    void testDelete() {
-        carRepository.create(car);
-        carRepository.delete(car.getId());
-        assertNull(carRepository.findById(car.getId()));
-    }
-
-    @Test
-    void testUpdateWithNonExistingId() {
+    void testEditWithNonExistingId() {
         Car updatedCar = new Car();
         updatedCar.setName("Updated Car");
         updatedCar.setColor("Blue");
         updatedCar.setQuantity(10);
-        Car result = carRepository.update("non existing id", updatedCar);
+        Car result = carRepository.edit("non existing id", updatedCar);
         assertNull(result);
+    }
+
+    @Test
+    void testDelete() {
+        carRepository.create(car);
+        carRepository.deleteById(car.getId());
+        assertNull(carRepository.findById(car.getId()));
     }
 
     @Test

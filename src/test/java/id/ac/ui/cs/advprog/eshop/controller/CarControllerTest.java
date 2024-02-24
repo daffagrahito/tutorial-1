@@ -88,7 +88,7 @@ class CarControllerTest {
             assertEquals(car, arg1);
 
             return null;
-        }).when(carService).update(anyString(), any(Car.class));
+        }).when(carService).edit(anyString(), any(Car.class));
 
         String view = carController.editCarPost(car);
         assertEquals("redirect:listCar", view);

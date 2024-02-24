@@ -115,12 +115,11 @@ class ProductRepositoryTest {
         productRepository.create(product1);
 
         Product updatedProduct = new Product();
-        updatedProduct.setId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
         updatedProduct.setName("Updated Product 1");
         updatedProduct.setQuantity(15);
 
         // Act
-        Product result = productRepository.edit(updatedProduct);
+        Product result = productRepository.edit(product1.getId(), updatedProduct);
 
         // Assert
         assertNotNull(result);
@@ -140,12 +139,11 @@ class ProductRepositoryTest {
         productRepository.create(product1);
 
         Product updatedProduct = new Product();
-        updatedProduct.setId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
         updatedProduct.setName("Updated Product 3");
         updatedProduct.setQuantity(30);
 
         // Act
-        Product result = productRepository.edit(updatedProduct);
+        Product result = productRepository.edit("a0f9de46-90b1-437d-a0bf-d0821dde9096", updatedProduct);
 
         // Assert
         assertNull(result);

@@ -54,7 +54,7 @@ class CarController {
 
     @PostMapping("/editCar")
     public String editCarPost(@ModelAttribute Car updatedCar) {
-        carService.update(updatedCar.getId(), updatedCar);
+        carService.edit(updatedCar.getId(), updatedCar);
         return REDIRECT_LIST_CAR;
     }
 

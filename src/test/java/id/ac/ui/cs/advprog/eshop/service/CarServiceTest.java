@@ -46,9 +46,9 @@ class CarServiceTest {
     void testUpdate() {
         Car car = new Car();
         String carId = "123";
-        when(carRepository.update(carId, car)).thenReturn(car);
-        carService.update(carId, car);
-        verify(carRepository, times(1)).update(carId, car);
+        when(carRepository.edit(carId, car)).thenReturn(car);
+        carService.edit(carId, car);
+        verify(carRepository, times(1)).edit(carId, car);
     }
 
     @Test
@@ -64,8 +64,8 @@ class CarServiceTest {
     @Test
     void testDeleteCarById() {
         String carId = "123";
-        doNothing().when(carRepository).delete(carId);
+        doNothing().when(carRepository).deleteById(carId);
         carService.deleteCarById(carId);
-        verify(carRepository, times(1)).delete(carId);
+        verify(carRepository, times(1)).deleteById(carId);
     }
 }

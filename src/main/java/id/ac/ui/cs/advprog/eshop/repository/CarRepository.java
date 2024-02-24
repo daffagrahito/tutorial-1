@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Repository
-public class CarRepository {
+public class CarRepository implements IRepository<Car> {
     static int id = 0;
 
     private List<Car> carData = new ArrayList<>();
@@ -31,7 +31,7 @@ public class CarRepository {
         return null;
     }
 
-    public Car update(String id, Car updatedCar) {
+    public Car edit(String id, Car updatedCar) {
         for (Car car : carData) {
             if (car.getId().equals(id)) {
                 // Update the existing car with the new info
@@ -44,7 +44,7 @@ public class CarRepository {
         return null; // Handle the case where the car isn't found
     }
 
-    public void delete(String id) {
+    public void deleteById(String id) {
         carData.removeIf(car -> car.getId().equals(id));
     }
 }

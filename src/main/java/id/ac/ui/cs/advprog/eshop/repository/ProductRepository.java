@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Repository
-public class ProductRepository {
+public class ProductRepository implements IRepository<Product> {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
@@ -23,12 +23,13 @@ public class ProductRepository {
                 .orElse(null);
     }
 
-    public Product edit(Product updatedProduct) {
-        for (int i = 0; i < productData.size(); i++) {
-            Product existingProduct = productData.get(i);
-            if (existingProduct.getId().equals(updatedProduct.getId())) {
-                productData.set(i, updatedProduct);
-                return updatedProduct;
+    public Product edit(String id, Product updatedProduct) {
+        for (Product product : productData) {
+            if (product.getId().equals(id)) {
+                // Update the existing product with the new info
+                product.setName(updatedProduct.getName());
+                product.setQuantity(updatedProduct.getQuantity());
+                return product;
             }
         }
         return null; // Product not found
