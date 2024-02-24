@@ -7,13 +7,43 @@
 
 1. SOLID Principles yang sudah saya apply diantaranya:
     
-    ### SRP
+    ### Single Responsibility Principle (SRP)
+    Pada `CarController` dan `ProductController` sekaligus juga di class model `Product` dan `Car`, setiap hal tersebut punya *responsibility*nya masing-masing. `Product` bertanggung jawab untuk meng-*handle* *product-related properties and behaviors*, dan `Car` bertanggung jawab untuk meng-*handle car-related properties and behaviors*. Selain itu sebelumnya di `CarController` yang `extends ProductController` dan juga terletak di satu file `ProductController`, ini mengakibatkan akses endpoint yang tidak diinginkan, seperti misalnya apabila diakses endpoint `localhost:8080/car/list` dia malah mengakses `CarListPage` dimana ini aneh karena kita ingin men*separate* *responsibility* antara `CarController` dan `ProductController` yang bertanggung jawab atas bagiannya masing-masing.
 
-    ### LSP
+    ### Open Closed Principle (OCP)
+    Untuk OCP, sebenarnya tidak terlalu tertunjuk dengan jelas tapi tidak juga *violates* *Open Closed Principle*. Contohnya class `Product` yang terbuka untuk extension tapi *closed for modification* karena `Car extends Product` dan menambahkan property baru yaitu color, tanpa mengubah class `Product` sendiri. Dan juga itu berlaku pada class `CarController` dan `ProductController` serta file-file terdapat pada package `repository` dan `service`.
 
-    ### ISP
+    ### Liskov Substitution Principle (LSP)
+    Class `Car` dan `Product` disini memenuhi Liskov Substitution Principle. `Car` merupakan subclass dari `Product` dan tidak override apapun dari method-method di class `Product` yang dapat memberikan masalah apabila object Car digunakan sebagai substitusi dari object `Product`.
 
-    ### DIP
+    ### Interface Segregation Principle (ISP)
+    Pada package `service` dan `repository` terdapat beberapa implementasi ISP, karena terdapat interface yang *segregated* tergantung tipe entity yang dikaitkan dan saling relevan. Apabila perlu dilakukan operasi terhadap `Product`, kita hanya perlu mengimplementasikan metode yang relevan untuk operasi `Product` melalui `ProductService` misalnya, dan tidak dipaksa untuk mengimplementasikan metode yang tidak mereka gunakan atau metode yang mungkin ada di interface lain, dan itu juga berlaku untuk `Car` dan file-file di `repository`.
+
+    ### Dependency Inversion Principle (DIP)
+    Di package `repository` terdapat interface `IRepository` dan masing-masing interface `CarService` serta `ProductService` di package `service`. Ini membuat classes yang lebih memiliki detail lebih *depend* dengan abstraction dan interface sehingga dapat memisahkan kepentingan-kepentingan dan meningkatkan fleksibilitas. 
+
+
+2. - **Single Responsibility Principle (SRP)**: Dengan `CarController` fokus pada pengelolaan request HTTP untuk `Car`, memudahkan perawatan dan pengembangan kode karena setiap class memiliki satu alasan untuk berubah. Contoh, jika perlu menambahkan fitur baru terkait `Car`, hanya `CarController` yang perlu diubah. Ini juga berlaku untuk `ProductController` dan lain-lain.
+ 
+   - **Open/Closed Principle (OCP)**: `ProductServiceImpl implements ProductService`, memungkinkan penambahan fungsi tanpa mengubah kode yang ada, mendukung ekstensi dengan minim modifikasi.
+
+   - **Liskov Substitution Principle (LSP)**: class `Car` yang extend `Product` memastikan bahwa objek `Car` dapat menggantikan `Product` tanpa mengganggu fungsi program, menjaga kekonsistenan sistem.
+  
+   - **Interface Segregation Principle (ISP)**: Interface `IRepository` mendefinisikan operasi CRUD yang umum untuk entitas. Dengan demikian, class `CarRepository` dan `ProductRepository` dapat mengimplementasi `IRepository` tanpa dipaksa untuk mengimplementasi metode yang tidak relevan dengan kebutuhan spesifik mereka.
+
+   - **Dependency Inversion Principle (DIP)**: Penggunaan dependency injection dalam `CarServiceImpl` untuk `CarRepository` mengurangi ketergantungan langsung pada implementasi konkret, mempermudah *testing* dan *maintenance*.
+
+3. Tidak menerapkan SOLID principles dapat mengakibatkan beberapa kekurangan:
+
+- **Single Responsibility Principle (SRP)**: Tanpa SRP, class bisa memiliki lebih dari satu alasan untuk berubah, membuat kode lebih sulit untuk dipahami dan di-*maintain*. Misalnya, jika `CarController` juga mengelola logikanya, setiap perubahan kecil bisa memaksa perubahan pada `controller`, meningkatkan risiko bug.
+
+- **Open/Closed Principle (OCP)**: Tanpa OCP, misalnya Jika `CarService` dan `ProductService` tidak didesain untuk mudah diperluas, penambahan fungsi baru seperti fitur filter atau pencarian lanjutan memerlukan modifikasi pada class-class tersebut, meningkatkan risiko bug.
+
+- **Liskov Substitution Principle (LSP)**: Tanpa LSP, misalnya jika `Car` tidak dapat menggantikan `Product` dengan benar di semua konteks penggunaan, penggunaan polimorfisme menjadi terbatas. Juga jika `Car` memperkenalkan validasi atau perilaku baru yang tidak sesuai dengan `Product`, hal ini dapat menyebabkan error atau perilaku tak terduga.
+
+- **Interface Segregation Principle (ISP)**: Tanpa ISP, jika `IRepository` memaksa `CarRepository` dan `ProductRepository` untuk mengimplementasi metode yang tidak relevan, ini akan membuat kode mereka menjadi sulit untuk dipelihara. Misalnya, jika `IRepository` memiliki metode `updateStockLevel` yang hanya relevan untuk `Product`, tetapi tidak untuk `Car`, ini akan menimbulkan masalah.
+
+- **Dependency Inversion Principle (DIP)**: Tanpa DIP, misalnya jika `CarServiceImpl` dan `ProductServiceImpl` secara langsung bergantung pada implementasi konkret dari `CarRepository` dan `ProductRepository` daripada interface, mengganti atau menguji komponen-komponen tersebut menjadi sulit. Misalnya, sulit untuk mengganti database tanpa mengubah banyak kode dalam service implementation.
 
 ## Module Sebelumnya 📑
 
@@ -55,7 +85,7 @@ Setelah me-*review* kembali source code yang telah saya buat untuk setiap kedua 
     ```
     Dalam contoh ini, class `CalculatorTest` memiliki 100% *code coverage* karena menguji satu-satunya method dalam class `Calculator`. Namun, method `divide` memiliki bug: ia tidak menangani kasus di mana b adalah 0, yang akan menyebabkan `ArithmeticException` dilemparkan. Bug ini tidak akan terdeteksi oleh pengujian yang ada, menunjukkan bahwa 100% *code coverage* tidak menjamin bahwa kode tersebut bebas dari bug.
 
-2. Semisal dibuat functional test suite baru sebagai sebuah Java class baru, akan ada beberapa hal yang membuat test suite kita tidak mencakup *clean code*. Salah satunya mungkin yaitu duplikasi class dan file. Jika setup prosedur dan variabel instance yang sama disalin secara langsung dari kelas tes fungsional sebelumnya, itu akan menciptakan duplikasi kode yang tidak efisien. Ini dapat membuat kode sulit dipelihara dan meningkatkan risiko kesalahan jika perubahan perlu dilakukan di masa depan. Alternatif yang lebih mungkin daripada menyalin setup prosedur dari kelas tes fungsional sebelumnya adalah mempertimbangkan untuk menyatukan setup ke dalam suatu method helper yang dapat dipanggil dari semua tes fungsional yang memerlukannya dan juga kita bisa mengkapsulasi setup prosedur dan variabel instance dalam method atau helper class terpisah untuk menghindari duplikasi kode.
+2. Semisal dibuat functional test suite baru sebagai sebuah Java class baru, akan ada beberapa hal yang membuat test suite kita tidak mencakup *clean code*. Salah satunya mungkin yaitu duplikasi class dan file. Jika setup prosedur dan variabel instance yang sama disalin secara langsung dari class tes fungsional sebelumnya, itu akan menciptakan duplikasi kode yang tidak efisien. Ini dapat membuat kode sulit dipelihara dan meningkatkan risiko kesalahan jika perubahan perlu dilakukan di masa depan. Alternatif yang lebih mungkin daripada menyalin setup prosedur dari class tes fungsional sebelumnya adalah mempertimbangkan untuk menyatukan setup ke dalam suatu method helper yang dapat dipanggil dari semua tes fungsional yang memerlukannya dan juga kita bisa mengkapsulasi setup prosedur dan variabel instance dalam method atau helper class terpisah untuk menghindari duplikasi kode.
 
 </details>
 
