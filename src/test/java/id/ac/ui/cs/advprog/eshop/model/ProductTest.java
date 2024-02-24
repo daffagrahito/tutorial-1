@@ -11,48 +11,48 @@ class ProductTest {
     @BeforeEach
     void setUp() {
         this.product = new Product();
-        this.product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        this.product.setProductName("Sampo Cap Bambang");
-        this.product.setProductQuantity(100);
+        this.product.setId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        this.product.setName("Sampo Cap Bambang");
+        this.product.setQuantity(100);
     }
 
     // Positive scenario
     @Test
     void testSetProductId() {
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", this.product.getProductId());
+        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", this.product.getId());
     }
 
     @Test
     void testGetProductName() {
-        assertEquals("Sampo Cap Bambang", this.product.getProductName());
+        assertEquals("Sampo Cap Bambang", this.product.getName());
     }
 
     @Test
     void testGetProductQuantity() {
-        assertEquals(100, this.product.getProductQuantity());
+        assertEquals(100, this.product.getQuantity());
     }
 
     // Negative scenario
     @Test
     void testSetProductIdNegativeScenario() {
         Product product = new Product();
-        assertThrows(IllegalArgumentException.class, () -> product.setProductId(null));
-        assertThrows(IllegalArgumentException.class, () -> product.setProductId(""));
-        System.out.println(product.getProductId());
+        assertThrows(IllegalArgumentException.class, () -> product.setId(null));
+        assertThrows(IllegalArgumentException.class, () -> product.setId(""));
+        System.out.println(product.getId());
     }
 
     @Test
     void testSetProductNameNegativeScenario() {
         Product product = new Product();
-        assertThrows(IllegalArgumentException.class, () -> product.setProductName(null));
-        assertThrows(IllegalArgumentException.class, () -> product.setProductName(""));
-        System.out.println(product.getProductName());
+        assertThrows(IllegalArgumentException.class, () -> product.setName(null));
+        assertThrows(IllegalArgumentException.class, () -> product.setName(""));
+        System.out.println(product.getName());
     }
 
     @Test
     void testSetProductQuantityNegativeScenario() {
         Product product = new Product();
-        assertThrows(IllegalArgumentException.class, () -> product.setProductQuantity(-1));
-        System.out.println(product.getProductQuantity());
+        assertThrows(IllegalArgumentException.class, () -> product.setQuantity(-1));
+        System.out.println(product.getQuantity());
     }
 }

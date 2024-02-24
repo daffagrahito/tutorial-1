@@ -47,9 +47,9 @@ class ProductServiceTest {
     @Test
     void testEditProduct() {
         Product product = new Product();
-        when(repository.edit(product)).thenReturn(product);
-        Product editedProduct = service.edit(product);
-        verify(repository, times(1)).edit(product);
+        when(repository.edit(product.getId(), product)).thenReturn(product);
+        Product editedProduct = service.edit(product.getId(), product);
+        verify(repository, times(1)).edit(product.getId(), product);
         assertEquals(product, editedProduct);
     }
 
@@ -64,16 +64,16 @@ class ProductServiceTest {
     @Test
     void testFindAllProductsReturnsCorrectProducts() {
         Product product1 = new Product();
-        product1.setProductId("1");
+        product1.setId("1");
         Product product2 = new Product();
-        product2.setProductId("2");
+        product2.setId("2");
         List<Product> allProducts = Arrays.asList(product1, product2);
         when(repository.findAll()).thenReturn(allProducts.iterator());
         List<Product> products = service.findAll();
         verify(repository, times(1)).findAll();
         assertEquals(2, products.size());
-        assertEquals("1", products.get(0).getProductId());
-        assertEquals("2", products.get(1).getProductId());
+        assertEquals("1", products.get(0).getId());
+        assertEquals("2", products.get(1).getId());
     }
 
     @Test

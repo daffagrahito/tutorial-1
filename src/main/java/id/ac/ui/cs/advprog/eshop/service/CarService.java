@@ -11,7 +11,7 @@ public interface CarService {
 
     Car findById(String carId);
 
-    void update(String carId, Car car);
+    void edit(String carId, Car car);
 
     void deleteCarById(String carId);
 }

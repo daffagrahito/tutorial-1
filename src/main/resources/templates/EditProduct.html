@@ -11,15 +11,15 @@
     <h3>Edit Product</h3>
 
     <form th:action="@{/product/edit}" th:object="${product}" method="post">
-        <input type="hidden" th:field="*{productId}" />
+        <input type="hidden" th:field="*{id}" />
     
         <div class="form-group">
             <label for="nameInput">Name</label>
-            <input th:field="*{productName}" type="text" class="form-control mb-4 col-4" id="nameInput" placeholder="Enter product's name" required>
+            <input th:field="*{name}" type="text" class="form-control mb-4 col-4" id="nameInput" placeholder="Enter product's name" required>
         </div>
         <div class="form-group">
             <label for="quantityInput">Quantity</label>
-            <input th:field="*{productQuantity}" type="number" class="form-control mb-4 col-4" id="quantityInput" placeholder="Enter quantity" min="0" required>
+            <input th:field="*{quantity}" type="number" class="form-control mb-4 col-4" id="quantityInput" placeholder="Enter quantity" min="0" required>
         </div>
         <button type="submit" class="btn btn-primary">Edit</button>
     </form>

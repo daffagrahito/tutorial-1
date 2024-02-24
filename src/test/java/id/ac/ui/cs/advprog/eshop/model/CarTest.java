@@ -2,34 +2,73 @@ package id.ac.ui.cs.advprog.eshop.model;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CarTest {
+class CarTest {
 
     @Test
-    public void testCarId() {
+    void testCarId() {
         Car car = new Car();
-        car.setCarId("123");
-        assertEquals("123", car.getCarId());
+        car.setId("123");
+        assertEquals("123", car.getId());
     }
 
     @Test
-    public void testCarName() {
+    void testCarName() {
         Car car = new Car();
-        car.setCarName("Test Car");
-        assertEquals("Test Car", car.getCarName());
+        car.setName("Test Car");
+        assertEquals("Test Car", car.getName());
     }
 
     @Test
-    public void testCarColor() {
+    void testCarColor() {
         Car car = new Car();
-        car.setCarColor("Red");
-        assertEquals("Red", car.getCarColor());
+        car.setColor("Red");
+        assertEquals("Red", car.getColor());
     }
 
     @Test
-    public void testCarQuantity() {
+    void testCarQuantity() {
         Car car = new Car();
-        car.setCarQuantity(5);
-        assertEquals(5, car.getCarQuantity());
+        car.setQuantity(5);
+        assertEquals(5, car.getQuantity());
+    }
+
+    @Test
+    void testSetIdWithNull() {
+        Car car = new Car();
+        assertThrows(IllegalArgumentException.class, () -> car.setId(null));
+    }
+
+    @Test
+    void testSetNameWithNull() {
+        Car car = new Car();
+        assertThrows(IllegalArgumentException.class, () -> car.setName(null));
+    }
+
+    @Test
+    void testSetColorWithValidColor() {
+        Car car = new Car();
+        String color = "Blue";
+        car.setColor(color);
+        assertEquals(color, car.getColor());
+    }
+
+    @Test
+    void testSetColorWithNull() {
+        Car car = new Car();
+        assertThrows(IllegalArgumentException.class, () -> car.setColor(null));
+    }
+
+    @Test
+    void testSetColorWithEmptyString() {
+        Car car = new Car();
+        assertThrows(IllegalArgumentException.class, () -> car.setColor(""));
+    }
+
+    @Test
+    void testSetQuantityWithNegative() {
+        Car car = new Car();
+        assertThrows(IllegalArgumentException.class, () -> car.setQuantity(-1));
     }
 }

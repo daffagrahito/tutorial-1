@@ -37,8 +37,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void update(String carId, Car car) {
-        carRepository.update(carId, car);
+    public void edit(String carId, Car car) {
+        carRepository.edit(carId, car);
     }
 
     @Override
@@ -49,6 +49,6 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void deleteCarById(String carId) {
-        carRepository.delete(carId);
+        carRepository.deleteById(carId);
     }
 }
