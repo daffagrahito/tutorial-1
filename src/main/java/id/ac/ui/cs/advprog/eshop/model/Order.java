@@ -9,11 +9,11 @@ import java.util.List;
 @Builder
 @Getter
 public class Order {
-    String id;
-    List<Product> products;
-    Long orderTime;
-    String author;
-    String status;
+    private String id;
+    private List<Product> products;
+    private Long orderTime;
+    private String author;
+    private String status;
 
     public Order(String id, List<Product> products, Long orderTime, String author) {
         this.id = id;
@@ -30,6 +30,9 @@ public class Order {
 
     public Order(String id, List<Product> products, Long orderTime, String author, String status) {
         this(id, products, orderTime, author);
+        if (status == null) {
+            throw new IllegalArgumentException();
+        }
         this.setStatus(status);
     }
 

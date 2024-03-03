@@ -118,7 +118,7 @@ class OrderServiceImplTest {
     @Test
     void testFindByIfNotFound() {
         doReturn(null).when(orderRepository).findById("zczc");
-        assertNull(orderService.findById("zczc"));
+        assertThrows(NoSuchElementException.class, () -> orderService.findById("zczc"));
     }
 
     @Test

@@ -10,8 +10,13 @@ import java.util.NoSuchElementException;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    private final OrderRepository orderRepository;
+
     @Autowired
-    private OrderRepository orderRepository;
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
     @Override
     public Order createOrder(Order order) {
         if (orderRepository.findById(order.getId()) == null) {
@@ -20,23 +25,37 @@ public class OrderServiceImpl implements OrderService {
         }
         return null;
     }
+
     @Override
     public Order updateStatus(String orderId, String status) {
         Order order = orderRepository.findById(orderId);
         if (order != null) {
-            Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(), order.getAuthor(), status);
+            Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(), order.getAuthor(),
+                    status);
             orderRepository.save(newOrder);
             return newOrder;
         } else {
             throw new NoSuchElementException();
         }
     }
+
     @Override
-    public List<Order> findAllByAuthor (String author) {
+    public List<Order> findAllByAuthor(String author) {
+        if (author == null) {
+            throw new IllegalArgumentException("Author cannot be null");
+        }
         return orderRepository.findAllByAuthor(author);
     }
+
     @Override
     public Order findById(String id) {
-        return orderRepository.findById(id);
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+        Order order = orderRepository.findById(id);
+        if (order == null) {
+            throw new NoSuchElementException("No order found with this ID");
+        }
+        return order;
     }
 }

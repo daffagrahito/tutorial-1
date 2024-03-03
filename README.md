@@ -2,50 +2,57 @@
 
 > #### Muhammad Daffa Grahito Triharsanto - 2206820075 - Pemrograman Lanjut B
 
-## Module 3 - Pemrograman Lanjut 2023/2024 Genap
+## Module 4 - Pemrograman Lanjut 2023/2024 Genap
 
-### Reflection ✏️
-![Soal Reflection](https://cdn.discordapp.com/attachments/711462986874617956/1210430006975668334/image.png?ex=65ea87ca&is=65d812ca&hm=c480660afb98a615d82389e4cc6e48a7153f1e763dfdbc6aa8241d6ff24702a4&)
+### Reflection 1 ✏️
+![Soal Reflection](https://cdn.discordapp.com/attachments/1201794782402187324/1213661842396946493/image.png?ex=65f649ab&is=65e3d4ab&hm=1f1bd64bc15b9d5b8eb024cb18d530b9d2065137d06fa05b9175eacbba08f719&)
 
-1. SOLID Principles yang sudah saya apply diantaranya:
+1. Percival (2017) menyarankan untuk mengevaluasi test kita berdasarkan objektif-objektif ini:
+   
+   - **Correctness**
+      
+      - *Do I have enough functional tests to reassure myself that my application really works, from point of view of the user?* 
+      
+        - Menurut saya, functional testnya sudah cukup untuk memastikan aplikasinya berjalan lancar apabila ini dari sudut pandang saya sebagai pengguna aplikasinya. Dari tutorial, saya rasa ada test yang dibuat salah tapi hal tersebut sudah saya benarkan agar semua testnya *passed*. 
+      - *Am I testing all edge cases thoroughly?*  
+        - *Edge cases*nya sudah cukup terimplementasi dengan baik, namun mungkin masih bisa di tingkatkan beberapa seperti misalnya di `OrderRepository` ada handle mengenai null.
+      - *Do I have tests that check whether all my components fit together properly? Could some integrated tests do this, or are functional tests enough?* 
+      
+        - Functional test sudah cukup untuk memastikan komponen-komponen bekerja secara satu kesatuan jika di desain dengan baik. Namun, mungkin functional test saja tidak cukup untuk memastikan semua case/issue bisa di atasi. Untuk itu integrated tests bisa memberikan detail dan hasil yang lebih baik.
+   - **Clean and Maintainable Code**
+      
+      - *Are my tests giving me the confidence to refactor my code, fearlessly and frequently?*
+        - Ya, beberapa tests sudah accepted dan meng-*cover* edge cases. Jadi, saya bisa melakukan refactoring untuk kode saya agar lebih baik secara sering. 
+      - *Are my tests helping me to drive out a good design? If I have a lot of integration tests but less unit tests, do I need to make more unit tests to get better feedback on my code design?*
+        - Tes yang baik tidak hanya memverifikasi bahwa kode bekerja, tetapi juga membimbing desainnya. Tes bisa memaksa kita untuk berpikir tentang cara menyusun kode agar dapat diuji, yang sering kali mengarah ke desain yang lebih baik. Meskipun *integration tests* penting untuk memastikan bagian-bagian berbeda dari kode bekerja dengan baik bersama-sama, *unit tests* masih sangat penting untuk menguji komponen individu secara terpisah.
+   - **Productive Workflow**
     
-    ### Single Responsibility Principle (SRP)
-    Pada `CarController` dan `ProductController` sekaligus juga di class model `Product` dan `Car`, setiap hal tersebut punya *responsibility*nya masing-masing. `Product` bertanggung jawab untuk meng-*handle* *product-related properties and behaviors*, dan `Car` bertanggung jawab untuk meng-*handle car-related properties and behaviors*. Selain itu sebelumnya di `CarController` yang `extends ProductController` dan juga terletak di satu file `ProductController`, ini mengakibatkan akses endpoint yang tidak diinginkan, seperti misalnya apabila diakses endpoint `localhost:8080/car/list` dia malah mengakses `CarListPage` dimana ini aneh karena kita ingin men*separate* *responsibility* antara `CarController` dan `ProductController` yang bertanggung jawab atas bagiannya masing-masing.
+      - Are my feedback cycles as fast as I would like them? When do I get warned about bugs, and is there any practical way to make that happen sooner?
 
-    ### Open Closed Principle (OCP)
-    Untuk OCP, sebenarnya tidak terlalu tertunjuk dengan jelas tapi tidak juga *violates* *Open Closed Principle*. Contohnya class `Product` yang terbuka untuk extension tapi *closed for modification* karena `Car extends Product` dan menambahkan property baru yaitu color, tanpa mengubah class `Product` sendiri. Dan juga itu berlaku pada class `CarController` dan `ProductController` serta file-file terdapat pada package `repository` dan `service`.
+        - Karena saya sudah memakai JUnit, menurut saya sudah cukup untuk memastikan suatu test bisa error dan umpan baliknya juga bisa terlihat dengan jelas salah di test yang mana.
+      - Is there some way that I could write faster integration tests that would give me feedback quicker?
 
-    ### Liskov Substitution Principle (LSP)
-    Class `Car` dan `Product` disini memenuhi Liskov Substitution Principle. `Car` merupakan subclass dari `Product` dan tidak override apapun dari method-method di class `Product` yang dapat memberikan masalah apabila object Car digunakan sebagai substitusi dari object `Product`.
+        - Kita bisa mempercepat *integration tests* dengan membatasi cakupannya. Misalnya, daripada menguji seluruh sistem setiap kali, kita dapat menguji hanya bagian-bagian yang berinteraksi dengan bagian yang diubah secara lebih sering.
+      - Can I run a subset of the full test suite when I need to?
 
-    ### Interface Segregation Principle (ISP)
-    Pada package `service` dan `repository` terdapat beberapa implementasi ISP, karena terdapat interface yang *segregated* tergantung tipe entity yang dikaitkan dan saling relevan. Apabila perlu dilakukan operasi terhadap `Product`, kita hanya perlu mengimplementasikan metode yang relevan untuk operasi `Product` melalui `ProductService` misalnya, dan tidak dipaksa untuk mengimplementasikan metode yang tidak mereka gunakan atau metode yang mungkin ada di interface lain, dan itu juga berlaku untuk `Car` dan file-file di `repository`.
+        - Ya, kita dapat menandai tes tertentu sebagai "penting" dan mengatur *test suite* untuk hanya menjalankan tes tersebut.
+      - Am I spending to much time waiting for tests to run, and thus less time in a productive flow state?
 
-    ### Dependency Inversion Principle (DIP)
-    Di package `repository` terdapat interface `IRepository` dan masing-masing interface `CarService` serta `ProductService` di package `service`. Ini membuat classes yang lebih memiliki detail lebih *depend* dengan abstraction dan interface sehingga dapat memisahkan kepentingan-kepentingan dan meningkatkan fleksibilitas. 
+        - Tidak, karena apabila mengimplementasikan TDD kita juga bisa sambil mengerjakan hal yang lainnya sambil menunggu *tests*nya berjalan
 
+2. Test-test yang saya buat telah dirancang untuk mematuhi prinsip F.I.R.S.T. Berikut adalah bagaimana setiap prinsip ini diterapkan dalam tes saya:
 
-2. - **Single Responsibility Principle (SRP)**: Dengan `CarController` fokus pada pengelolaan request HTTP untuk `Car`, memudahkan perawatan dan pengembangan kode karena setiap class memiliki satu alasan untuk berubah. Contoh, jika perlu menambahkan fitur baru terkait `Car`, hanya `CarController` yang perlu diubah. Ini juga berlaku untuk `ProductController` dan lain-lain.
- 
-   - **Open/Closed Principle (OCP)**: `ProductServiceImpl implements ProductService`, memungkinkan penambahan fungsi tanpa mengubah kode yang ada, mendukung ekstensi dengan minim modifikasi.
+   1. ***Fast***: *Unit tests* yang saya buat berjalan dengan cepat. Ini memungkinkan testnya untuk dijalankan secara lebih sering dan memberikan umpan balik instant tentang apakah perubahan terakhir mempengaruhi fungsi kode.
 
-   - **Liskov Substitution Principle (LSP)**: class `Car` yang extend `Product` memastikan bahwa objek `Car` dapat menggantikan `Product` tanpa mengganggu fungsi program, menjaga kekonsistenan sistem.
-  
-   - **Interface Segregation Principle (ISP)**: Interface `IRepository` mendefinisikan operasi CRUD yang umum untuk entitas. Dengan demikian, class `CarRepository` dan `ProductRepository` dapat mengimplementasi `IRepository` tanpa dipaksa untuk mengimplementasi metode yang tidak relevan dengan kebutuhan spesifik mereka.
+   2. ***Independent***: Setiap test yang saya buat dapat berjalan secara independen dari yang lain. Mereka tidak bergantung pada keadaan bersama atau urutan di mana mereka dijalankan.
 
-   - **Dependency Inversion Principle (DIP)**: Penggunaan dependency injection dalam `CarServiceImpl` untuk `CarRepository` mengurangi ketergantungan langsung pada implementasi konkret, mempermudah *testing* dan *maintenance*.
+   3. ***Repeatable***: Setiap Test yang saya buat menghasilkan hasil yang sama setiap kali mereka dijalankan.
 
-3. Tidak menerapkan SOLID principles dapat mengakibatkan beberapa kekurangan:
+   4. ***Self-Validating***: Setiap Test yang saya buat memiliki output *passed*/*failed*. Jadi tidak ada ikut campur manusia untuk menginterpretasikan hasilnya.
 
-- **Single Responsibility Principle (SRP)**: Tanpa SRP, class bisa memiliki lebih dari satu alasan untuk berubah, membuat kode lebih sulit untuk dipahami dan di-*maintain*. Misalnya, jika `CarController` juga mengelola logikanya, setiap perubahan kecil bisa memaksa perubahan pada `controller`, meningkatkan risiko bug.
+   5. ***Timely***: Tes yang saya buat ditulis tepat sebelum kode produksi yang membuat mereka lulus.
 
-- **Open/Closed Principle (OCP)**: Tanpa OCP, misalnya Jika `CarService` dan `ProductService` tidak didesain untuk mudah diperluas, penambahan fungsi baru seperti fitur filter atau pencarian lanjutan memerlukan modifikasi pada class-class tersebut, meningkatkan risiko bug.
-
-- **Liskov Substitution Principle (LSP)**: Tanpa LSP, misalnya jika `Car` tidak dapat menggantikan `Product` dengan benar di semua konteks penggunaan, penggunaan polimorfisme menjadi terbatas. Juga jika `Car` memperkenalkan validasi atau perilaku baru yang tidak sesuai dengan `Product`, hal ini dapat menyebabkan error atau perilaku tak terduga.
-
-- **Interface Segregation Principle (ISP)**: Tanpa ISP, jika `IRepository` memaksa `CarRepository` dan `ProductRepository` untuk mengimplementasi metode yang tidak relevan, ini akan membuat kode mereka menjadi sulit untuk dipelihara. Misalnya, jika `IRepository` memiliki metode `updateStockLevel` yang hanya relevan untuk `Product`, tetapi tidak untuk `Car`, ini akan menimbulkan masalah.
-
-- **Dependency Inversion Principle (DIP)**: Tanpa DIP, misalnya jika `CarServiceImpl` dan `ProductServiceImpl` secara langsung bergantung pada implementasi konkret dari `CarRepository` dan `ProductRepository` daripada interface, mengganti atau menguji komponen-komponen tersebut menjadi sulit. Misalnya, sulit untuk mengganti database tanpa mengubah banyak kode dalam service implementation.
+Dengan memastikan bahwa tes saya mematuhi prinsip-prinsip ini, saya dapat yakin bahwa mereka memberikan umpan balik yang efektif dan efisien tentang kualitas kode saya. Ini membantu saya untuk dengan cepat menemukan dan memperbaiki bug, dan juga membantu saya untuk merombak kode dengan percaya diri.
 
 ## Module Sebelumnya 📑
 
@@ -121,4 +128,55 @@ import org.springframework.web.bind.annotation.PathVariable;
 - Perlu menambahkan caption di table html untuk menambah code reliability, untuk itu menambahkan `<caption></caption>` menyelesaikan permasalahan ini.
 
 2. Menurut saya, saya sudah cukup mengimplementasikan CI/CD di project ini. Untuk *Continuous Integration* (CI), saya menggunakan GitHub Actions untuk menjalankan workflows yang saya define sebelumnya seperti `ci.yml`, `pmd.yml`, `sonarcloud.yml`, dan `scorecard.yml`. Workflows tersebut otomatis dijalankan apabila terdapat push/pull request ke suatu branch. Selain itu saya juga mengimplementasikan *Continuous Deployment* (CD) dengan menggunakan Koyeb sebagai *PaaS*nya. Sama seperti CI, apabila terdapat push/pull request ke suatu branch maka akan secara otomatis ter-*deploy* di Koyeb. Dengan begini saya dapat me-*maintain* code saya dengan lebih baik setiap kali saya ingin melakukan perubahan code dalam project saya agar dapat mendeteksi error lebih awal.
+</details>
+
+<details> 
+
+<b><summary> Reflection Module 3 </summary></b>
+
+## Module 3 - Pemrograman Lanjut 2023/2024 Genap
+
+### Reflection ✏️
+![Soal Reflection](https://cdn.discordapp.com/attachments/711462986874617956/1210430006975668334/image.png?ex=65ea87ca&is=65d812ca&hm=c480660afb98a615d82389e4cc6e48a7153f1e763dfdbc6aa8241d6ff24702a4&)
+
+1. SOLID Principles yang sudah saya apply diantaranya:
+    
+    ### Single Responsibility Principle (SRP)
+    Pada `CarController` dan `ProductController` sekaligus juga di class model `Product` dan `Car`, setiap hal tersebut punya *responsibility*nya masing-masing. `Product` bertanggung jawab untuk meng-*handle* *product-related properties and behaviors*, dan `Car` bertanggung jawab untuk meng-*handle car-related properties and behaviors*. Selain itu sebelumnya di `CarController` yang `extends ProductController` dan juga terletak di satu file `ProductController`, ini mengakibatkan akses endpoint yang tidak diinginkan, seperti misalnya apabila diakses endpoint `localhost:8080/car/list` dia malah mengakses `CarListPage` dimana ini aneh karena kita ingin men*separate* *responsibility* antara `CarController` dan `ProductController` yang bertanggung jawab atas bagiannya masing-masing.
+
+    ### Open Closed Principle (OCP)
+    Untuk OCP, sebenarnya tidak terlalu tertunjuk dengan jelas tapi tidak juga *violates* *Open Closed Principle*. Contohnya class `Product` yang terbuka untuk extension tapi *closed for modification* karena `Car extends Product` dan menambahkan property baru yaitu color, tanpa mengubah class `Product` sendiri. Dan juga itu berlaku pada class `CarController` dan `ProductController` serta file-file terdapat pada package `repository` dan `service`.
+
+    ### Liskov Substitution Principle (LSP)
+    Class `Car` dan `Product` disini memenuhi Liskov Substitution Principle. `Car` merupakan subclass dari `Product` dan tidak override apapun dari method-method di class `Product` yang dapat memberikan masalah apabila object Car digunakan sebagai substitusi dari object `Product`.
+
+    ### Interface Segregation Principle (ISP)
+    Pada package `service` dan `repository` terdapat beberapa implementasi ISP, karena terdapat interface yang *segregated* tergantung tipe entity yang dikaitkan dan saling relevan. Apabila perlu dilakukan operasi terhadap `Product`, kita hanya perlu mengimplementasikan metode yang relevan untuk operasi `Product` melalui `ProductService` misalnya, dan tidak dipaksa untuk mengimplementasikan metode yang tidak mereka gunakan atau metode yang mungkin ada di interface lain, dan itu juga berlaku untuk `Car` dan file-file di `repository`.
+
+    ### Dependency Inversion Principle (DIP)
+    Di package `repository` terdapat interface `IRepository` dan masing-masing interface `CarService` serta `ProductService` di package `service`. Ini membuat classes yang lebih memiliki detail lebih *depend* dengan abstraction dan interface sehingga dapat memisahkan kepentingan-kepentingan dan meningkatkan fleksibilitas. 
+
+
+2. - **Single Responsibility Principle (SRP)**: Dengan `CarController` fokus pada pengelolaan request HTTP untuk `Car`, memudahkan perawatan dan pengembangan kode karena setiap class memiliki satu alasan untuk berubah. Contoh, jika perlu menambahkan fitur baru terkait `Car`, hanya `CarController` yang perlu diubah. Ini juga berlaku untuk `ProductController` dan lain-lain.
+ 
+   - **Open/Closed Principle (OCP)**: `ProductServiceImpl implements ProductService`, memungkinkan penambahan fungsi tanpa mengubah kode yang ada, mendukung ekstensi dengan minim modifikasi.
+
+   - **Liskov Substitution Principle (LSP)**: class `Car` yang extend `Product` memastikan bahwa objek `Car` dapat menggantikan `Product` tanpa mengganggu fungsi program, menjaga kekonsistenan sistem.
+  
+   - **Interface Segregation Principle (ISP)**: Interface `IRepository` mendefinisikan operasi CRUD yang umum untuk entitas. Dengan demikian, class `CarRepository` dan `ProductRepository` dapat mengimplementasi `IRepository` tanpa dipaksa untuk mengimplementasi metode yang tidak relevan dengan kebutuhan spesifik mereka.
+
+   - **Dependency Inversion Principle (DIP)**: Penggunaan dependency injection dalam `CarServiceImpl` untuk `CarRepository` mengurangi ketergantungan langsung pada implementasi konkret, mempermudah *testing* dan *maintenance*.
+
+3. Tidak menerapkan SOLID principles dapat mengakibatkan beberapa kekurangan:
+
+- **Single Responsibility Principle (SRP)**: Tanpa SRP, class bisa memiliki lebih dari satu alasan untuk berubah, membuat kode lebih sulit untuk dipahami dan di-*maintain*. Misalnya, jika `CarController` juga mengelola logikanya, setiap perubahan kecil bisa memaksa perubahan pada `controller`, meningkatkan risiko bug.
+
+- **Open/Closed Principle (OCP)**: Tanpa OCP, misalnya Jika `CarService` dan `ProductService` tidak didesain untuk mudah diperluas, penambahan fungsi baru seperti fitur filter atau pencarian lanjutan memerlukan modifikasi pada class-class tersebut, meningkatkan risiko bug.
+
+- **Liskov Substitution Principle (LSP)**: Tanpa LSP, misalnya jika `Car` tidak dapat menggantikan `Product` dengan benar di semua konteks penggunaan, penggunaan polimorfisme menjadi terbatas. Juga jika `Car` memperkenalkan validasi atau perilaku baru yang tidak sesuai dengan `Product`, hal ini dapat menyebabkan error atau perilaku tak terduga.
+
+- **Interface Segregation Principle (ISP)**: Tanpa ISP, jika `IRepository` memaksa `CarRepository` dan `ProductRepository` untuk mengimplementasi metode yang tidak relevan, ini akan membuat kode mereka menjadi sulit untuk dipelihara. Misalnya, jika `IRepository` memiliki metode `updateStockLevel` yang hanya relevan untuk `Product`, tetapi tidak untuk `Car`, ini akan menimbulkan masalah.
+
+- **Dependency Inversion Principle (DIP)**: Tanpa DIP, misalnya jika `CarServiceImpl` dan `ProductServiceImpl` secara langsung bergantung pada implementasi konkret dari `CarRepository` dan `ProductRepository` daripada interface, mengganti atau menguji komponen-komponen tersebut menjadi sulit. Misalnya, sulit untuk mengganti database tanpa mengubah banyak kode dalam service implementation.
+
 </details>
