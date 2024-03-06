@@ -55,4 +55,14 @@ class PaymentCashOnDeliveryTest {
         payment.setPaymentData(this.paymentData);
         assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
+
+    @Test
+    void testSetPaymentDataWithNonNumericDeliveryFee() {
+        this.paymentData.put("address", "Jalan Pondok Sofura");
+        this.paymentData.put("deliveryFee", "twenty five thousand");
+        PaymentCashOnDelivery payment = new PaymentCashOnDelivery("13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.CASH_ON_DELIVERY.getValue(), this.paymentData);
+        payment.setPaymentData(this.paymentData);
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
+    }
 }

@@ -9,13 +9,21 @@ public class PaymentCashOnDelivery extends Payment {
         super(id, method, paymentData);
     }
 
+    private static final String DELIVERY_FEE = "deliveryFee";
+    private static final String ADDRESS = "address";
+
     @Override
     public void setPaymentData(Map<String, String> paymentData) {
-        if (paymentData.isEmpty() || paymentData.get("address").isEmpty() || paymentData.get("deliveryFee").isEmpty()) {
+        if (paymentData.isEmpty() || paymentData.get(ADDRESS).isEmpty() || paymentData.get(ADDRESS) == null
+                || paymentData.get(DELIVERY_FEE).isEmpty() || paymentData.get(DELIVERY_FEE) == null) {
             this.status = PaymentStatus.REJECTED.getValue();
         } else {
-            this.paymentData = paymentData;
-            this.status = PaymentStatus.SUCCESS.getValue();
+            if (paymentData.get(DELIVERY_FEE).matches("\\d+")) {
+                this.paymentData = paymentData;
+                this.status = PaymentStatus.SUCCESS.getValue();
+            } else {
+                this.status = PaymentStatus.REJECTED.getValue();
+            }
         }
     }
 }
