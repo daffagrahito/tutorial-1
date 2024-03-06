@@ -11,10 +11,30 @@ public class PaymentRepository {
     private List<Payment> paymentData = new ArrayList<>();
 
     public Payment save(Payment payment) {
-        return null;
+        int i = 0;
+        for (Payment savedPayment : paymentData) {
+            if (savedPayment.getId().equals(payment.getId())) {
+                paymentData.remove(i);
+                paymentData.add(i, payment);
+                return payment;
+            }
+            i++;
+        }
+
+        paymentData.add(payment);
+        return payment;
     }
 
     public Payment findById(String id) {
+        for (Payment savedPayment : paymentData) {
+            if (savedPayment.getId().equals(id)) {
+                return savedPayment;
+            }
+        }
         return null;
+    }
+
+    public List<Payment> findAll() {
+        return paymentData;
     }
 }
