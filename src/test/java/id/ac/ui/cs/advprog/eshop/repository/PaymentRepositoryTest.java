@@ -74,6 +74,22 @@ class PaymentRepositoryTest {
     }
 
     @Test
+    void testFindAll() {
+        for (Payment payment : payments) {
+            paymentRepository.save(payment);
+        }
+
+        List<Payment> findResult = paymentRepository.findAll();
+        assertEquals(payments.size(), findResult.size());
+        for (int i = 0; i < payments.size(); i++) {
+            assertEquals(payments.get(i).getId(), findResult.get(i).getId());
+            assertEquals(payments.get(i).getMethod(), findResult.get(i).getMethod());
+            assertEquals(payments.get(i).getStatus(), findResult.get(i).getStatus());
+            assertSame(payments.get(i).getPaymentData(), findResult.get(i).getPaymentData());
+        }
+    }
+
+    @Test
     void testFindByIdIfIdNotFound() {
         for (Payment payment : payments) {
             paymentRepository.save(payment);
@@ -81,5 +97,41 @@ class PaymentRepositoryTest {
 
         Payment findResult = paymentRepository.findById("zczc");
         assertNull(findResult);
+    }
+
+    @Test
+    void testSaveNewPayment() {
+        Payment payment = new Payment("abc58e9f-2c39-460e-8860-71af6af63bd7", PaymentMethod.VOUCHER_CODE.getValue(),
+                paymentData);
+        Payment result = paymentRepository.save(payment);
+
+        Payment findResult = paymentRepository.findById("abc58e9f-2c39-460e-8860-71af6af63bd7");
+        assertEquals("abc58e9f-2c39-460e-8860-71af6af63bd7", result.getId());
+        assertEquals("abc58e9f-2c39-460e-8860-71af6af63bd7", findResult.getId());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), findResult.getMethod());
+    }
+
+    @Test
+    void testSaveExistingPayment() {
+        Payment payment = payments.get(0);
+        payment.setMethod(PaymentMethod.CASH_ON_DELIVERY.getValue());
+        Payment result = paymentRepository.save(payment);
+
+        Payment findResult = paymentRepository.findById(payments.get(0).getId());
+        assertEquals(payments.get(0).getId(), result.getId());
+        assertEquals(PaymentMethod.CASH_ON_DELIVERY.getValue(), findResult.getMethod());
+    }
+
+    @Test
+    void testFindByIdNotFound() {
+        Payment findResult = paymentRepository.findById("abc58e9g-1d64-460e-8860-71bf6zx63bd7");
+        assertNull(findResult);
+    }
+
+    @Test
+    void testFindAllEmpty() {
+        paymentRepository = new PaymentRepository();
+        List<Payment> findResult = paymentRepository.findAll();
+        assertTrue(findResult.isEmpty());
     }
 }
