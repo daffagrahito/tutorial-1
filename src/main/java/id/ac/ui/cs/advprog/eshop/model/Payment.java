@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.util.Map;
 
+import enums.PaymentMethod;
 import enums.PaymentStatus;
 
 @Getter
@@ -39,5 +40,12 @@ public class Payment {
         } else {
             this.paymentData = paymentData;
         }
+    }
+
+    public void setMethod(String method) {
+        if (!PaymentMethod.contains(method)) {
+            throw new IllegalArgumentException("Invalid payment method: " + method);
+        }
+        this.method = method;
     }
 }
