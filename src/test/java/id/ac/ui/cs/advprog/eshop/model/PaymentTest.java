@@ -3,6 +3,8 @@ package id.ac.ui.cs.advprog.eshop.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import enums.PaymentStatus;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ class PaymentTest {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER", this.paymentData);
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
         assertEquals("VOUCHER", payment.getMethod());
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
         assertSame(this.paymentData, payment.getPaymentData());
     }
 
@@ -30,13 +32,14 @@ class PaymentTest {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER", this.paymentData, "SUCCESS");
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
         assertEquals("VOUCHER", payment.getMethod());
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
         assertSame(this.paymentData, payment.getPaymentData());
     }
 
     @Test
     void testCreatePaymentInvalidStatus() {
         assertThrows(IllegalArgumentException.class, () -> {
+            @SuppressWarnings("unused")
             Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER", this.paymentData,
                     "INVALID");
         });

@@ -4,6 +4,8 @@ import lombok.Getter;
 
 import java.util.Map;
 
+import enums.PaymentStatus;
+
 @Getter
 public class Payment {
     String id;
@@ -15,7 +17,7 @@ public class Payment {
         this.id = id;
         this.method = method;
         this.paymentData = paymentData;
-        this.status = "REJECTED";
+        this.status = PaymentStatus.REJECTED.getValue();
     }
 
     public Payment(String id, String method, Map<String, String> paymentData, String status) {
@@ -24,7 +26,7 @@ public class Payment {
     }
 
     public void setStatus(String status) {
-        if (status.equals("SUCCESS") || status.equals("REJECTED")) {
+        if (PaymentStatus.contains(status)) {
             this.status = status;
         } else {
             throw new IllegalArgumentException();
