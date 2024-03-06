@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
+import enums.OrderStatus;
+import enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -24,21 +27,38 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentDetails) {
-        return null;
+        Payment payment = new Payment(order.getId(), method, paymentDetails);
+        paymentRepository.save(payment);
+        return payment;
     }
 
     @Override
     public Payment setStatus(Payment payment, String status) {
-        return null;
+        Order order = orderRepository.findById(payment.getId());
+        if (order != null) {
+            if (PaymentStatus.SUCCESS.getValue().equals(status)) {
+                order.setStatus(OrderStatus.SUCCESS.getValue());
+            } else if (PaymentStatus.REJECTED.getValue().equals(status)) {
+                order.setStatus(OrderStatus.FAILED.getValue());
+            } else {
+                throw new IllegalArgumentException();
+            }
+            orderRepository.save(order);
+            payment.setStatus(status);
+            paymentRepository.save(payment);
+        } else {
+            throw new NoSuchElementException();
+        }
+        return payment;
     }
 
     @Override
     public Payment getPayment(String paymentId) {
-        return null;
+        return paymentRepository.findById(paymentId);
     }
 
     @Override
     public List<Payment> getAllPayments() {
-        return null;
+        return paymentRepository.findAll();
     }
 }
