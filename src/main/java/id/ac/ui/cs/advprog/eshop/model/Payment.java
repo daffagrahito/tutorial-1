@@ -17,7 +17,7 @@ public class Payment {
         this.id = id;
         this.method = method;
         this.paymentData = paymentData;
-        this.status = PaymentStatus.REJECTED.getValue();
+        this.status = PaymentStatus.PENDING.getValue();
     }
 
     public Payment(String id, String method, Map<String, String> paymentData, String status) {
