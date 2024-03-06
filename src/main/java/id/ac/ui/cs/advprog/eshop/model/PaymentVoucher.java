@@ -24,7 +24,8 @@ public class PaymentVoucher extends Payment {
                 }
             }
             this.paymentData = paymentData;
-            if (paymentData.get(VOUCHER_CODE_KEY).startsWith("ESHOP") & numericalChar == 8 & paymentData.get(VOUCHER_CODE_KEY).length() == 16) {
+            if (paymentData.get(VOUCHER_CODE_KEY).startsWith("ESHOP") && numericalChar == 8
+                    && paymentData.get(VOUCHER_CODE_KEY).length() == 16) {
                 this.status = PaymentStatus.SUCCESS.getValue();
             } else {
                 this.status = PaymentStatus.REJECTED.getValue();

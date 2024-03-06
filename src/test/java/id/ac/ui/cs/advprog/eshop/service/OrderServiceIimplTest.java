@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -140,5 +141,45 @@ class OrderServiceImplTest {
 
         List<Order> results = orderService.findAllByAuthor(order.getAuthor().toLowerCase());
         assertTrue(results.isEmpty());
+    }
+
+    @Test
+    void testFindAllByAuthor() {
+        Order order1 = mock(Order.class);
+        Order order2 = mock(Order.class);
+        when(orderRepository.findAllByAuthor("author")).thenReturn(Arrays.asList(order1, order2));
+
+        List<Order> result = orderService.findAllByAuthor("author");
+
+        assertEquals(2, result.size());
+        verify(orderRepository, times(1)).findAllByAuthor("author");
+    }
+
+    @Test
+    void testFindAllByAuthorWithNullAuthor() {
+        assertThrows(IllegalArgumentException.class, () -> orderService.findAllByAuthor(null));
+    }
+
+    @Test
+    void testFindById() {
+        Order order = mock(Order.class);
+        when(orderRepository.findById("id")).thenReturn(order);
+
+        Order result = orderService.findById("id");
+
+        assertEquals(order, result);
+        verify(orderRepository, times(1)).findById("id");
+    }
+
+    @Test
+    void testFindByIdWithNullId() {
+        assertThrows(IllegalArgumentException.class, () -> orderService.findById(null));
+    }
+
+    @Test
+    void testFindByIdWithNonexistentId() {
+        when(orderRepository.findById("nonexistentId")).thenReturn(null);
+
+        assertThrows(NoSuchElementException.class, () -> orderService.findById("nonexistentId"));
     }
 }

@@ -111,4 +111,19 @@ class OrderRepositoryTest {
         List<Order> orderList = orderRepository.findAllByAuthor(orders.get(1).getAuthor().toLowerCase());
         assertTrue(orderList.isEmpty());
     }
+
+    @Test
+    void testSaveWithNullOrder() {
+        assertThrows(IllegalArgumentException.class, () -> orderRepository.save(null));
+    }
+
+    @Test
+    void testFindByIdWithNullId() {
+        assertThrows(IllegalArgumentException.class, () -> orderRepository.findById(null));
+    }
+
+    @Test
+    void testFindAllByAuthorWithNullAuthor() {
+        assertThrows(IllegalArgumentException.class, () -> orderRepository.findAllByAuthor(null));
+    }
 }

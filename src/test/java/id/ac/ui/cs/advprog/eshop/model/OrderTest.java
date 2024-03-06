@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,6 +30,48 @@ class OrderTest {
 
         this.products.add(product1);
         this.products.add(product2);
+    }
+
+    @Test
+    void testBuilder() {
+        Order order = Order.builder()
+                .id("1")
+                .products(Arrays.asList(new Product(), new Product()))
+                .orderTime(123456789L)
+                .author("author")
+                .status(OrderStatus.WAITING_PAYMENT.getValue())
+                .build();
+
+        assertEquals("1", order.getId());
+        assertEquals(2, order.getProducts().size());
+        assertEquals(123456789L, order.getOrderTime());
+        assertEquals("author", order.getAuthor());
+        assertEquals(OrderStatus.WAITING_PAYMENT.getValue(), order.getStatus());
+    }
+
+    @Test
+    void testConstructorWithEmptyProducts() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Order("1", Collections.emptyList(), 123456789L, "author"));
+    }
+
+    @Test
+    void testConstructorWithNullStatus() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Order("1", Arrays.asList(new Product()), 123456789L, "author", null));
+    }
+
+    @Test
+    void testSetStatusWithInvalidStatus() {
+        Order order = Order.builder()
+                .id("1")
+                .products(Arrays.asList(new Product(), new Product()))
+                .orderTime(123456789L)
+                .author("author")
+                .status(OrderStatus.WAITING_PAYMENT.getValue())
+                .build();
+
+        assertThrows(IllegalArgumentException.class, () -> order.setStatus("invalid_status"));
     }
 
     @Test
