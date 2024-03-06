@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -154,5 +155,17 @@ class PaymentServiceImplTest {
         List<Payment> result = paymentService.getAllPayments();
         verify(paymentRepository, times(1)).findAll();
         assertEquals(new ArrayList<Payment>(), result);
+    }
+
+    @Test
+    void testSetStatusOrderNotFound() {
+        Payment payment = payments.get(0);
+
+        assertThrows(java.util.NoSuchElementException.class, () -> {
+            paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
+        });
+
+        verify(orderRepository, times(0)).save(any(Order.class));
+        verify(paymentRepository, times(0)).save(any(Payment.class));
     }
 }
