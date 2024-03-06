@@ -10,10 +10,6 @@ public class PaymentVoucher extends Payment {
         super(id, method, paymentData);
     }
 
-    public PaymentVoucher(String id, String method, Map<String, String> paymentData, String status) {
-        super(id, method, paymentData, status);
-    }
-
     @Override
     public void setPaymentData(Map<String, String> paymentData) {
         final String VOUCHER_CODE_KEY = "voucherCode";
@@ -28,9 +24,7 @@ public class PaymentVoucher extends Payment {
                 }
             }
             this.paymentData = paymentData;
-            if (paymentData.get(VOUCHER_CODE_KEY).length() == 16
-                    && paymentData.get(VOUCHER_CODE_KEY).startsWith("ESHOP")
-                    && numericalChar == 8) {
+            if (paymentData.get(VOUCHER_CODE_KEY).startsWith("ESHOP") & numericalChar == 8 & paymentData.get(VOUCHER_CODE_KEY).length() == 16) {
                 this.status = PaymentStatus.SUCCESS.getValue();
             } else {
                 this.status = PaymentStatus.REJECTED.getValue();

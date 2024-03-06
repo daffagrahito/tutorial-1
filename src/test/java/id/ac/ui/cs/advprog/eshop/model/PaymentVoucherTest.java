@@ -4,6 +4,8 @@ import enums.PaymentMethod;
 import enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,22 +28,22 @@ class PaymentVoucherTest {
         assertThrows(IllegalArgumentException.class, () -> payment.setPaymentData(this.paymentData));
     }
 
-    @Test
-    void testSetPaymentDataWithValidVoucherCode() {
-        this.paymentData.put("voucherCode", "ESHOP1234ABC5678");
+    @ParameterizedTest
+    @CsvSource({
+            "'SHOP1234ABC5678', 'REJECTED'",
+            "'ESHOP1234ABC567', 'REJECTED'",
+            "'ESHOPABCDEFGH', 'REJECTED'",
+            "'ESHOP1234ABC5678', 'SUCCESS'",
+            "'ESHOP1234ABC56789', 'REJECTED'",
+            "'ESHOP1234ABC5', 'REJECTED'",
+            "'ESHOP12345678901234', 'REJECTED'",
+    })
+    void testSetPaymentDataWithVariousVoucherCodes(String voucherCode, String expectedStatus) {
+        this.paymentData.put("voucherCode", voucherCode);
         PaymentVoucher payment = new PaymentVoucher("13652556-012a-4c07-b546-54eb1396d79b",
                 PaymentMethod.VOUCHER_CODE.getValue(), this.paymentData);
         payment.setPaymentData(this.paymentData);
-        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
-    }
-
-    @Test
-    void testSetPaymentDataWithInvalidVoucherCodeWithShortLength() {
-        this.paymentData.put("voucherCode", "ESHOP1234ABC567");
-        PaymentVoucher payment = new PaymentVoucher("13652556-012a-4c07-b546-54eb1396d79b",
-                PaymentMethod.VOUCHER_CODE.getValue(), this.paymentData);
-        payment.setPaymentData(this.paymentData);
-        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
+        assertEquals(expectedStatus, payment.getStatus());
     }
 
     @Test
@@ -60,5 +62,13 @@ class PaymentVoucherTest {
                 PaymentMethod.VOUCHER_CODE.getValue(), this.paymentData);
         payment.setPaymentData(this.paymentData);
         assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
+    }
+
+    @Test
+    void testSetPaymentDataWithNullVoucherCode() {
+        this.paymentData.put("voucherCode", null);
+        PaymentVoucher payment = new PaymentVoucher("13652556-012a-4c07-b546-54eb1396d79b",
+                PaymentMethod.VOUCHER_CODE.getValue(), this.paymentData);
+        assertThrows(NullPointerException.class, () -> payment.setPaymentData(this.paymentData));
     }
 }
